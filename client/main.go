@@ -15,14 +15,9 @@ import (
 
 func main() {
 
-	if len(os.Args) != 3 {
-		fmt.Println("Must have a url to connect to as the first argument, and a username as the second argument")
-		return
-	}
-
 	ctx := context.Background()
 
-	conn, err := grpc.Dial(os.Args[1],grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:8080",grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}
@@ -66,9 +61,10 @@ func main() {
 		}
 
 		err := stream.Send(&chat.ChatMessage{
-			User: os.Args[2],
+			User: os.Args[1],
 			Message: msg,
 		})
+
 		if err != nil {
 			panic(err)
 		}
